@@ -1,0 +1,9 @@
+/Users/kartal/RiderProjects/co_stocks/Application.Core/obj/Debug/netcoreapp2.1/Application.Core.csprojAssemblyReference.cache
+/Users/kartal/RiderProjects/co_stocks/Application.Core/obj/Debug/netcoreapp2.1/Application.Core.csproj.CoreCompileInputs.cache
+/Users/kartal/RiderProjects/co_stocks/Application.Core/obj/Debug/netcoreapp2.1/Application.Core.AssemblyInfoInputs.cache
+/Users/kartal/RiderProjects/co_stocks/Application.Core/obj/Debug/netcoreapp2.1/Application.Core.AssemblyInfo.cs
+/Users/kartal/RiderProjects/co_stocks/Application.Core/bin/Debug/netcoreapp2.1/Application.Core.deps.json
+/Users/kartal/RiderProjects/co_stocks/Application.Core/bin/Debug/netcoreapp2.1/Application.Core.dll
+/Users/kartal/RiderProjects/co_stocks/Application.Core/bin/Debug/netcoreapp2.1/Application.Core.pdb
+/Users/kartal/RiderProjects/co_stocks/Application.Core/obj/Debug/netcoreapp2.1/Application.Core.dll
+/Users/kartal/RiderProjects/co_stocks/Application.Core/obj/Debug/netcoreapp2.1/Application.Core.pdb

@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Application.Web</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @if (!string.IsNullOrEmpty(Current.User.userGUID))
+            {
+                <b class="navbar-brand">Welcome @Current.User.userName</b>
+            }
+            else
+            {
+                @Html.ActionLink("Stocks", "Index", "Stock", new { area = "" }, new { @class = "navbar-brand" })
+            }
+    
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Home", "Index", "Stock")</li> 
+                @if (!string.IsNullOrEmpty(Current.User.userGUID))
+                {
+
+                    <li>@Html.ActionLink("Add Stock", "AddStock", "Stock")</li>
+                    <li>@Html.ActionLink("Stock List", "StockList", "Stock")</li>
+                    <li>@Html.ActionLink("Stock Settings", "StockSettings", "Stock")</li>
+                    <li>@Html.ActionLink("Logout", "Logout", "Stock")</li>
+                }
+                else
+                { 
+                    <li>@Html.ActionLink("Login/Register", "Login", "Stock")</li>
+                }
+            </ul>
+              
+        </div>
+    </div>
+</div>
+<div class="container body-content">
+    @RenderBody()
+    <hr />
+    <footer>
+        <p>&copy; @DateTime.Now.Year - Osman Kadir KARTAL</p>
+    </footer>
+</div>
+
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

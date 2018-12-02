@@ -1,0 +1,14 @@
+/Users/kartal/RiderProjects/co_stocks/Application.Infrastructure/obj/Debug/netcoreapp2.1/Application.Infrastructure.csprojAssemblyReference.cache
+/Users/kartal/RiderProjects/co_stocks/Application.Infrastructure/obj/Debug/netcoreapp2.1/Application.Infrastructure.csproj.CoreCompileInputs.cache
+/Users/kartal/RiderProjects/co_stocks/Application.Infrastructure/obj/Debug/netcoreapp2.1/Application.Infrastructure.AssemblyInfoInputs.cache
+/Users/kartal/RiderProjects/co_stocks/Application.Infrastructure/obj/Debug/netcoreapp2.1/Application.Infrastructure.AssemblyInfo.cs
+/Users/kartal/RiderProjects/co_stocks/Application.Infrastructure/bin/Debug/netcoreapp2.1/Application.Infrastructure.deps.json
+/Users/kartal/RiderProjects/co_stocks/Application.Infrastructure/bin/Debug/netcoreapp2.1/Application.Infrastructure.dll
+/Users/kartal/RiderProjects/co_stocks/Application.Infrastructure/bin/Debug/netcoreapp2.1/Application.Infrastructure.pdb
+/Users/kartal/RiderProjects/co_stocks/Application.Infrastructure/bin/Debug/netcoreapp2.1/Application.Core.dll
+/Users/kartal/RiderProjects/co_stocks/Application.Infrastructure/bin/Debug/netcoreapp2.1/Microsoft.Extensions.Options.dll
+/Users/kartal/RiderProjects/co_stocks/Application.Infrastructure/bin/Debug/netcoreapp2.1/Application.Core.pdb
+/Users/kartal/RiderProjects/co_stocks/Application.Infrastructure/bin/Debug/netcoreapp2.1/Microsoft.Extensions.Options.xml
+/Users/kartal/RiderProjects/co_stocks/Application.Infrastructure/obj/Debug/netcoreapp2.1/Application.Infrastructure.csproj.CopyComplete
+/Users/kartal/RiderProjects/co_stocks/Application.Infrastructure/obj/Debug/netcoreapp2.1/Application.Infrastructure.dll
+/Users/kartal/RiderProjects/co_stocks/Application.Infrastructure/obj/Debug/netcoreapp2.1/Application.Infrastructure.pdb
