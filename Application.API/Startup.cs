@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Infrastructure;
+using Application.Infrastructure.DAL;
 using Application.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -18,50 +19,57 @@ namespace Application.API
     public class Startup
     {
         public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddCors(options =>
-            {
-                options.AddPolicy("CorsPolicy", 
-                    builder => builder.AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials());
-            });
+         {
+             Configuration = configuration;
+         }
+ 
+         public IConfiguration Configuration { get; }
+ 
+         // This method gets called by the runtime. Use this method to add services to the container.
+         public void ConfigureServices(IServiceCollection services)
+         {
+             services.AddCors(options =>
+             {
+                 options.AddPolicy("CorsPolicy", 
+                     builder => builder.AllowAnyOrigin()
+                         .AllowAnyMethod()
+                         .AllowAnyHeader()
+                         .AllowCredentials());
+             });
+             
+             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+             services.Configure<Settings>(options =>
+                 {
+                     options.EndPoint = Configuration.GetSection("CosmosDbConnection:endpoint").Value;
+                     options.AuthKey = Configuration.GetSection("CosmosDbConnection:authkey").Value;
+                     options.Database = Configuration.GetSection("CosmosDbConnection:database").Value;
+                     options.Collection = Configuration.GetSection("CosmosDbConnection:collection").Value;
+                 });
+ 
+             services.AddTransient<IUserRepository, UserRepository>();
+             services.AddTransient<IStockRepository, StockRepository>();
+             
+             DocumentDbRepository<Stocks>.Initialize(Configuration.GetSection("CosmosDbConnection:endpoint").Value,Configuration.GetSection("CosmosDbConnection:authkey").Value,Configuration.GetSection("CosmosDbConnection:database").Value,nameof(Stocks));
+             DocumentDbRepository<StockSettings>.Initialize(Configuration.GetSection("CosmosDbConnection:endpoint").Value,Configuration.GetSection("CosmosDbConnection:authkey").Value,Configuration.GetSection("CosmosDbConnection:database").Value,nameof(StockSettings));
+             DocumentDbRepository<Users>.Initialize(Configuration.GetSection("CosmosDbConnection:endpoint").Value,Configuration.GetSection("CosmosDbConnection:authkey").Value,Configuration.GetSection("CosmosDbConnection:database").Value,nameof(Users));
             
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.Configure<Settings>(options =>
-                {
-                    options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
-                    options.Database = Configuration.GetSection("MongoConnection:Database").Value;
-                });
-
-            services.AddTransient<IStockRepository, StockRepository>();
-           
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseHsts();
-            }
-
-            app.UseHttpsRedirection();
-            app.UseCors("CorsPolicy");
-            app.UseMvc();
-        }
-    }
-}
+         }
+ 
+         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+         {
+             if (env.IsDevelopment())
+             {
+                 app.UseDeveloperExceptionPage();
+             }
+             else
+             {
+                 app.UseHsts();
+             }
+ 
+             app.UseHttpsRedirection();
+             app.UseCors("CorsPolicy");
+             app.UseMvc();
+         }
+     }
+ }

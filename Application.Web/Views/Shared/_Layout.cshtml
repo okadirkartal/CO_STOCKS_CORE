@@ -25,20 +25,21 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            @if (!string.IsNullOrEmpty(Current.User.userGUID))
+            @*@if (!string.IsNullOrEmpty(Current.User.userGUID))
             {
                 <b class="navbar-brand">Welcome @Current.User.userName</b>
             }
             else
             {
                 @Html.ActionLink("Stocks", "Index", "Stock", new { area = "" }, new { @class = "navbar-brand" })
-            }
+            }*@
     
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("Home", "Index", "Stock")</li> 
-                @if (!string.IsNullOrEmpty(Current.User.userGUID))
+            <li><a href="/Stocks/StockList">Stocks</a>    @* @Html.ActionLink("Stocks", "StockList", "Stocks")</li>  *@
+               
+                @*@if (!string.IsNullOrEmpty(Current.User.userGUID))
                 {
 
                     <li>@Html.ActionLink("Add Stock", "AddStock", "Stock")</li>
@@ -49,7 +50,7 @@
                 else
                 { 
                     <li>@Html.ActionLink("Login/Register", "Login", "Stock")</li>
-                }
+                }*@
             </ul>
               
         </div>

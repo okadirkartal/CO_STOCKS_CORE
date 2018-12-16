@@ -30,15 +30,15 @@
   "frameworks": {
     "netcoreapp2.1": {
       "dependencies": {
+        "Microsoft.Azure.DocumentDB.Core": {
+          "target": "Package",
+          "version": "[2.2.0, )"
+        },
         "Microsoft.NETCore.App": {
           "suppressParent": "All",
           "target": "Package",
           "version": "[2.1.0, )",
           "autoReferenced": true
-        },
-        "mongocsharpdriver": {
-          "target": "Package",
-          "version": "[2.7.2, )"
         }
       },
       "imports": [

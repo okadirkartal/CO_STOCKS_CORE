@@ -5,7 +5,23 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.App"/>
+        <PackageReference Include="Microsoft.AspNet.WebApi.Client">
+          <Version>5.2.7</Version>
+        </PackageReference>
+        <PackageReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Application.Core\Application.Core.csproj" />
+      <ProjectReference Include="..\Application.Infrastructure\Application.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Services" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Services\ApiClient.cs" />
     </ItemGroup>
 
 </Project>

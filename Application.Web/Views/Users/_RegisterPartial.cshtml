@@ -1,0 +1,65 @@
+@model Application.Core.Models.ViewModels.RegisterViewModel
+
+@{
+    ViewBag.Title = "Register"; 
+}
+
+<h2>Register</h2>
+
+<form method="post" asp-controller="Users" action="_RegisterPartial" class="form-horizontal" role="form"> 
+    @Html.AntiForgeryToken()
+    <span class="text-danger">  @Html.Raw(ViewBag.Message)</span>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.username, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.username, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.username, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.name, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.surname, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.surname, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.surname, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.password, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.password, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.password, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.passwordRepeat, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.passwordRepeat, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.passwordRepeat, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Register" class="btn btn-default" />
+        </div>
+    </div>
+
+
+</form>

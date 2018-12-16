@@ -4,10 +4,4 @@
         <TargetFramework>netcoreapp2.1</TargetFramework>
     </PropertyGroup>
 
-    <ItemGroup>
-      <PackageReference Include="mongocsharpdriver">
-        <Version>2.7.2</Version>
-      </PackageReference>
-    </ItemGroup>
-
 </Project>

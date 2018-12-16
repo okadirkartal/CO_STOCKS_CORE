@@ -11,6 +11,7 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="Controllers" t="Include">
           <e p="StockController.cs" t="Include" />
+          <e p="UsersController.cs" t="Include" />
           <e p="ValuesController.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
@@ -53,7 +54,8 @@
         <e p="Application.Infrastructure.csproj" t="IncludeRecursive" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="DAL" t="Include">
-          <e p="StockContext.cs" t="Include" />
+          <e p="DocumentDBRepository.cs" t="Include" />
+          <e p="IDocumentDBRepository.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
@@ -79,7 +81,10 @@
         <e p="appsettings.json" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="Controllers" t="Include">
+          <e p="BaseController.cs" t="Include" />
           <e p="HomeController.cs" t="Include" />
+          <e p="StocksController.cs" t="Include" />
+          <e p="UsersController.cs" t="Include" />
         </e>
         <e p="Models" t="Include">
           <e p="ErrorViewModel.cs" t="Include" />
@@ -95,6 +100,7 @@
         <e p="Properties" t="Include">
           <e p="launchSettings.json" t="Include" />
         </e>
+        <e p="Services" t="Include" />
         <e p="Startup.cs" t="Include" />
         <e p="Views" t="Include">
           <e p="_ViewImports.cshtml" t="Include" />
@@ -110,6 +116,15 @@
             <e p="_Layout.cshtml" t="Include" />
             <e p="_ValidationScriptsPartial.cshtml" t="Include" />
             <e p="Error.cshtml" t="Include" />
+          </e>
+          <e p="Stocks" t="Include">
+            <e p="Index.cshtml" t="Include" />
+          </e>
+          <e p="Users" t="Include">
+            <e p="_LoginPartial.cshtml" t="Include" />
+            <e p="_RegisterPartial.cshtml" t="Include" />
+            <e p="Index.cshtml" t="Include" />
+            <e p="Login.cshtml" t="Include" />
           </e>
         </e>
         <e p="wwwroot" t="Include">

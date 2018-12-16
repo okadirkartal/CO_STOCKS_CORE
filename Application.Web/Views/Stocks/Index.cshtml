@@ -1,0 +1,36 @@
+@using Application.Infrastructure
+@model IEnumerable<Stocks>
+@{
+    ViewBag.Title = "Stock List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+  
+
+@if (Model.Any())
+{
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Stock Code</th>
+            <th>Stock Price</th>
+        </tr>
+          
+        @foreach (Stocks stock in Model)
+        {
+    
+                 <tr>
+                     <td>@stock.Id </td>
+                     <td>@stock.StockCode/td>
+                     <td>@stock.Price </td>    
+                 </tr>
+           
+        }
+
+
+    </table>
+}
+else
+{
+    <div>There is  no stocks</div>
+}
+

@@ -1,3 +1,5 @@
+/Users/kartal/RiderProjects/co_stocks/Application.API/bin/Debug/netcoreapp2.1/Microsoft.Azure.Documents.ServiceInterop.dll
+/Users/kartal/RiderProjects/co_stocks/Application.API/bin/Debug/netcoreapp2.1/DocumentDB.Spatial.Sql.dll
 /Users/kartal/RiderProjects/co_stocks/Application.API/bin/Debug/netcoreapp2.1/Application.API.deps.json
 /Users/kartal/RiderProjects/co_stocks/Application.API/bin/Debug/netcoreapp2.1/Application.API.runtimeconfig.json
 /Users/kartal/RiderProjects/co_stocks/Application.API/bin/Debug/netcoreapp2.1/Application.API.runtimeconfig.dev.json

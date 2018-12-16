@@ -20,14 +20,14 @@ namespace Application.API.Controllers
             _stockRepository = stockRepository;
         }
 
-        [HttpGet("{userId}"),Route("GetAllStocks")]
-        public async Task<IEnumerable<Stocks>> GetAllStocks([FromQuery]string userId)
+        [HttpGet("{userId}"),Route("StockList")]
+        public async Task<IEnumerable<Stocks>> StockList([FromQuery]string userId)
         {
-            return await _stockRepository. GetAllStocks(userId)?? new List<Stocks>();
+            return await _stockRepository.GetAllStocks(userId);
         }
         
         [HttpGet]
-        public async Task<Stocks> GetStocks(string stockCode,string userId="")
+        public async Task<Stocks> Stocks(string stockCode,string userId="")
         {
             return await _stockRepository.GetStock(stockCode,userId)?? new Stocks();
         }
