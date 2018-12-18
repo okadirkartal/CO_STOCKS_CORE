@@ -12,7 +12,7 @@ namespace Application.API.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class UsersController : Controller
+    public class UsersController : ControllerBase
     {
 
         private readonly IUserRepository _userRepository;

@@ -1,16 +1,16 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Core.Models;
-using Application.Infrastructure;
-using Application.Infrastructure.DAL;
+using Application.Infrastructure; 
 using Application.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.API.Controllers
 {
     [Produces("application/json")]
-    [Route("api/[controller]")]
-    public class StockController : Controller
+    [Route("api/Stock")]
+    [ApiController]
+    public class StockController : ControllerBase
     {
 
         private readonly IStockRepository _stockRepository;
@@ -19,9 +19,16 @@ namespace Application.API.Controllers
         {
             _stockRepository = stockRepository;
         }
+        
+        // GET api/values
+        [HttpGet]
+        public ActionResult<IEnumerable<string>> Get()
+        {
+            return new string[] {"value1", "value2"};
+        }
 
-        [HttpGet("{userId}"),Route("StockList")]
-        public async Task<IEnumerable<Stocks>> StockList([FromQuery]string userId)
+        [HttpGet("{userId}"),Route("StockList/{userId}")]
+        public async Task<IEnumerable<Stocks>> StockList(string userId)
         {
             return await _stockRepository.GetAllStocks(userId);
         }
