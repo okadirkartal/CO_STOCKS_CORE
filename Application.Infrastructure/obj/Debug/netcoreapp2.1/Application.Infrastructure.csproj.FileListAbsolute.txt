@@ -5,8 +5,10 @@
 /Users/kartal/RiderProjects/co_stocks/Application.Infrastructure/bin/Debug/netcoreapp2.1/Application.Infrastructure.pdb
 /Users/kartal/RiderProjects/co_stocks/Application.Infrastructure/bin/Debug/netcoreapp2.1/Application.Core.dll
 /Users/kartal/RiderProjects/co_stocks/Application.Infrastructure/bin/Debug/netcoreapp2.1/Microsoft.Extensions.Configuration.Abstractions.dll
+/Users/kartal/RiderProjects/co_stocks/Application.Infrastructure/bin/Debug/netcoreapp2.1/Microsoft.Extensions.Configuration.dll
 /Users/kartal/RiderProjects/co_stocks/Application.Infrastructure/bin/Debug/netcoreapp2.1/Microsoft.Extensions.Options.dll
 /Users/kartal/RiderProjects/co_stocks/Application.Infrastructure/bin/Debug/netcoreapp2.1/Application.Core.pdb
+/Users/kartal/RiderProjects/co_stocks/Application.Infrastructure/bin/Debug/netcoreapp2.1/Microsoft.Extensions.Configuration.xml
 /Users/kartal/RiderProjects/co_stocks/Application.Infrastructure/bin/Debug/netcoreapp2.1/Microsoft.Extensions.Configuration.Abstractions.xml
 /Users/kartal/RiderProjects/co_stocks/Application.Infrastructure/bin/Debug/netcoreapp2.1/Microsoft.Extensions.Options.xml
 /Users/kartal/RiderProjects/co_stocks/Application.Infrastructure/obj/Debug/netcoreapp2.1/Application.Infrastructure.csprojAssemblyReference.cache

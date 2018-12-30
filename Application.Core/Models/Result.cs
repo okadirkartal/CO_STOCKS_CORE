@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Application.Core.Models
 {
-    public class Result
+    public class Result 
     {
         public string ReturnMessage { get; set; }
 

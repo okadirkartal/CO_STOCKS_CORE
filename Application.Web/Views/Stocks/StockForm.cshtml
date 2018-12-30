@@ -1,0 +1,48 @@
+@using Application.Infrastructure
+@model Stocks 
+
+<form id="stockForm" method="post" action="StockForm">
+    @Html.HiddenFor(x=>x.UserId)
+    @Html.HiddenFor(x=>x.Id)
+     
+    @Html.ValidationSummary()
+    @Html.AntiForgeryToken()
+
+    <table class="table table-striped table-bordered table-responsive table-condensed table-hover">
+        <tr>
+            <td>@Html.DisplayNameFor(x=>x.Code)</td>
+            <td>@Html.TextBoxFor(model => model.Code, new {maxlength = 10})</td>
+         </tr>
+        
+        <tr>
+            <td>@Html.DisplayNameFor(x=>x.Name)</td>
+            <td>@Html.TextBoxFor(model => model.Name, new {maxlength = 20})</td>
+         </tr>
+        
+        <tr>
+            <td>@Html.DisplayNameFor(x=>x.Price)</td>
+            <td>@Html.TextBoxFor(model => model.Price, new {maxlength = 10})</td>
+         </tr>
+        
+        
+        <tr>
+            <td>@Html.DisplayNameFor(x=>x.Piece)</td>
+            <td>@Html.TextBoxFor(model => model.Piece, new {maxlength = 10})</td>
+         </tr>
+        
+        <tr>
+            <td>@Html.DisplayNameFor(x=>x.IsActive)?</td>
+            <td>Yes @Html.RadioButtonFor(model => model.IsActive, "1")
+                No @Html.RadioButtonFor(model => model.IsActive, "0")</td>
+         </tr>
+        <tr>
+            <td colspan="3" align="center">
+                <button class="btn btn-inverse" type="submit">Save</button>
+            </td>
+        </tr>
+       
+</table>
+    
+   
+   
+</form>

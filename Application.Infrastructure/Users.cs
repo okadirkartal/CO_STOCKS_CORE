@@ -1,29 +1,32 @@
 using System;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
 
 namespace Application.Infrastructure
 {
     public class Users
     {
-        [JsonProperty(PropertyName = "id")]
+        [BsonId,BsonElement]
+        [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         
-        [JsonProperty(PropertyName = "username")]
+        [BsonElement("UserName")]
         public string UserName { get; set; }
         
-        [JsonProperty(PropertyName = "name")]
+        [BsonElement("Name")]
         public string Name { get; set; }
         
-        [JsonProperty(PropertyName = "surname")]
+        [BsonElement("SurName")]
         public string SurName { get; set; }
         
-        [JsonProperty(PropertyName = "password")]
+        [BsonElement("Password")]
         public string Password { get; set; }
         
-        [JsonProperty(PropertyName = "creationdate")]
+        [BsonElement("CreationDate")]
         public DateTime? CreationDate { get; set; }
         
-        [JsonProperty(PropertyName = "lastlogindate")]
+        [BsonElement("LastLoginDate")]
         public DateTime? LastLoginDate { get; set; }
     }
 }

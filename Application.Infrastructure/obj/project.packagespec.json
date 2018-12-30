@@ -39,6 +39,10 @@
           "target": "Package",
           "version": "[2.1.0, )",
           "autoReferenced": true
+        },
+        "MongoDB.Driver": {
+          "target": "Package",
+          "version": "[2.7.2, )"
         }
       },
       "imports": [

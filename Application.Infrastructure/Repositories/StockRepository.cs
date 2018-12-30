@@ -1,25 +1,29 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Application.Core.Models;
 using Application.Infrastructure.DAL;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace Application.Infrastructure.Repositories
 {
-    public class StockRepository : IStockRepository
+    public class StockRepository : DocumentDbRepository<Stocks>,IStockRepository
     {
+
+        public StockRepository()
+        {
+            base.Initialize();
+            _collection = database.GetCollection<Stocks>(nameof(Stocks));
+        }
+        
         public async Task<IEnumerable<Stocks>> GetAllStocks(string userId)
         {
             try
             {
-                if (!string.IsNullOrEmpty(userId))
-                {
-                    return await DocumentDbRepository<Stocks>.GetItemsAsync(x => x.UserId == userId) ??
-                           new List<Stocks>();
-                }
-
-                return null;
+                return await Get(x => x.UserId == userId);
             }
             catch (Exception ex)
             {
@@ -27,16 +31,11 @@ namespace Application.Infrastructure.Repositories
             }
         }
 
-        public async Task<Stocks> GetStock(string stockCode, string userId = "")
+        public async Task<Stocks> GetStock(Expression<Func<Stocks, bool>> predicate)
         {
             try
             {
-                IEnumerable<Stocks> result;
-                if (!string.IsNullOrWhiteSpace(userId))
-                    result = await DocumentDbRepository<Stocks>.GetItemsAsync(x =>
-                        x.StockCode == stockCode && x.UserId == userId);
-
-                result = await DocumentDbRepository<Stocks>.GetItemsAsync(x => x.StockCode == stockCode);
+                IEnumerable<Stocks> result = await Get(predicate);
 
                 return result != null ? result.FirstOrDefault() : null;
             }
@@ -52,7 +51,7 @@ namespace Application.Infrastructure.Repositories
             var result = new Result() {IsSuccess = false};
             try
             {
-                var existingCode = await GetStock(stock.StockCode);
+                var existingCode = await GetStock(x => x.Code == stock.Code);
 
                 if (existingCode != null)
                 {
@@ -61,7 +60,7 @@ namespace Application.Infrastructure.Repositories
                 }
 
 
-                await DocumentDbRepository<Stocks>.CreateItemAsync(stock);
+                await Create(stock);
                 result.IsSuccess = true;
                 result.ReturnMessage = "Stock added";
             }
@@ -74,21 +73,23 @@ namespace Application.Infrastructure.Repositories
             return result;
         }
 
-        public async Task<Result> UpdateStock(Stocks stock)
+        public async Task<Result> UpdateStock(string id, Stocks stock)
         {
             var result = new Result() {IsSuccess = false};
             try
             {
-                var existingCode = await GetStock(stock.StockCode);
+                var existingCode = await GetStock(x => x.Code == stock.Code && x.Id != id);
 
-                if (existingCode != null && existingCode.Id != stock.Id)
+                if (existingCode != null)
                 {
                     result.ReturnMessage = "this code is exists";
                     return result;
                 }
 
 
-                await DocumentDbRepository<Stocks>.UpdateItemAsync(stock);
+                var filter = Builders<Stocks>.Filter.Eq(x => x.Id, id);
+
+                await Update(filter, stock);
 
 
                 result.IsSuccess = true;
@@ -109,9 +110,8 @@ namespace Application.Infrastructure.Repositories
             var result = new Result() {IsSuccess = false};
             try
             {
-                var document = DocumentDbRepository<Stocks>.GetDocument(stockId);
-
-                await DocumentDbRepository<Stocks>.DeleteDocumentAsync(document);
+                await Remove(new ObjectId(stockId),
+                    x => x.Id == stockId && x.UserId == userId);
 
                 result.IsSuccess = true;
                 result.ReturnMessage = "Stock deleted";
@@ -123,6 +123,12 @@ namespace Application.Infrastructure.Repositories
             }
 
             return result;
+        }
+
+
+        public bool StockIsExists(string id, string userId)
+        {
+            return Get(x => x.Id == id && x.UserId == userId).Result.Any();
         }
     }
 }

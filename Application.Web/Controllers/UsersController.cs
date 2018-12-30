@@ -10,21 +10,12 @@ using Microsoft.Extensions.Configuration;
 
 namespace Application.Web.Controllers
 {
-    public class UsersController : Controller
+    public class UsersController : BaseController
     {
-        static HttpClient client = new HttpClient();
+       private readonly IConfiguration _configuration;
 
-        private readonly IConfiguration _configuration;
+        public UsersController(IConfiguration configuration) : base(configuration) { }
 
-        public UsersController(IConfiguration configuration)
-        {
-            _configuration = configuration;
-            
-            client.BaseAddress = new Uri(_configuration.GetSection("ApplicationSettings:BaseApiUrl").Value);
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-        }
 
         // GET
         public IActionResult Index()
@@ -47,7 +38,7 @@ namespace Application.Web.Controllers
             {
                 Result result = null;
 
-                HttpResponseMessage response = await client.PostAsJsonAsync("/Users/Login",model);
+                HttpResponseMessage response = await Client.PostAsJsonAsync("/Users/Login",model);
                 response.EnsureSuccessStatusCode();
                 
                 if (response.IsSuccessStatusCode)
@@ -83,7 +74,7 @@ namespace Application.Web.Controllers
             {
                 Result result = null;
 
-                HttpResponseMessage response = await client.PostAsJsonAsync("/Users/Register",model);
+                HttpResponseMessage response = await Client.PostAsJsonAsync("/Users/Register",model);
                 response.EnsureSuccessStatusCode();
                 if (response.IsSuccessStatusCode)
                 {

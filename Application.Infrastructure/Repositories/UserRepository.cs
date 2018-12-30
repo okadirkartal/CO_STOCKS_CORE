@@ -5,17 +5,24 @@ using System.Threading.Tasks;
 using Application.Core.Models;
 using Application.Core.Models.ViewModels;
 using Application.Infrastructure.DAL;
+using MongoDB.Driver;
 
 namespace Application.Infrastructure.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : DocumentDbRepository<Users>,IUserRepository
     {
+        public UserRepository()
+        {
+            base.Initialize();
+            _collection = database.GetCollection<Users>(nameof(Users));
+        }
+        
         public async Task<Result> Login(LoginViewModel loginViewModel)
         {
             var result = new Result() {IsSuccess = false};
             try
             {
-                var user = DocumentDbRepository<Users>.GetItemsAsync(x => x.UserName == loginViewModel.username &&
+                var user = Get(x => x.UserName == loginViewModel.username &&
                                                                           x.Password == loginViewModel.password).Result
                     ?.FirstOrDefault();
                 if (user == null)
@@ -26,7 +33,10 @@ namespace Application.Infrastructure.Repositories
                 }
 
                 user.LastLoginDate = DateTime.Now;
-                await DocumentDbRepository<Users>.UpdateItemAsync(user);
+                
+                var filter = Builders<Users>.Filter.Eq(x => x.Id,user.Id);
+                
+                await Update(filter,user);
 
                 result.ReturnMessageList = new List<string>();
                 result.ReturnMessageList.Add(user.Id.ToString());
@@ -43,7 +53,7 @@ namespace Application.Infrastructure.Repositories
         public async Task<Result> Register(RegisterViewModel model)
         {
             var result = new Result() {IsSuccess = false};
-            try
+            /*try
             {
                 if (!model.password.Equals(model.passwordRepeat))
                 {
@@ -75,7 +85,8 @@ namespace Application.Infrastructure.Repositories
             catch (Exception ex)
             {
                 throw ex;
-            }
+            }*/
+            return result;
         }
     }
 }

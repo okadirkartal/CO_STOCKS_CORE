@@ -1,18 +1,20 @@
 @using Application.Infrastructure
 @model IEnumerable<Stocks>
-@{
-    ViewBag.Title = "Stock List";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-  
+
+     
 
 @if (Model.Any())
 {
-    <table>
+    <table class="table table-striped table-bordered table-responsive table-condensed table-hover">
         <tr>
-            <th>Id</th>
-            <th>Stock Code</th>
-            <th>Stock Price</th>
+            <th>@Html.DisplayNameFor(x=>x.Id)</th>
+            <th>@Html.DisplayNameFor(x=>x.Code)</th>
+            <th>@Html.DisplayNameFor(x=>x.Name)</th>
+            <th>@Html.DisplayNameFor(x=>x.Price)</th>
+            <th>@Html.DisplayNameFor(x=>x.Piece)</th>
+            <th>@Html.DisplayNameFor(x=>x.IsActive) ?</th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
           
         @foreach (Stocks stock in Model)
@@ -20,8 +22,13 @@
     
                  <tr>
                      <td>@stock.Id </td>
-                     <td>@stock.StockCode/td>
-                     <td>@stock.Price </td>    
+                     <td>@stock.Code</td>
+                     <td>@stock.Name</td>
+                     <td>@stock.Price </td> 
+                     <th>@stock.Piece</th>
+                     <td>@(stock.IsActive) </td> 
+                     <td>@Html.ActionLink("Edit","StockForm","Stocks",new {stockId=@stock.Id,userId=@stock.UserId})</td>
+                     <td><a href="/Stocks/DeleteStock/@stock.UserId/@stock.Id">[Delete]</a></td>
                  </tr>
            
         }

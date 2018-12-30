@@ -1,0 +1,29 @@
+@using Application.Infrastructure
+@model Stocks
+
+<form id="formDelete" method="post" action="DeleteStock"
+      enctype="application/x-www-form-urlencoded">
+    @Html.HiddenFor(x => x.UserId)
+    @Html.HiddenFor(x => x.Id)
+    <div>
+        <label>@Html.DisplayNameFor(x => x.Id)</label>
+          @Model.Id
+    </div>
+    <div>
+        <label>@Html.DisplayNameFor(x => x.Code)</label>
+        @Model.Code
+    </div>
+    <div>
+        <label>@Html.DisplayNameFor(x => x.Name)</label>
+        @Model.Name
+    </div>
+    <div>
+        <label>@Html.DisplayNameFor(x => x.Price)</label>
+        @Model.Price
+    </div>
+    <div>
+        Are you sure delete this stock?
+        <input type="submit" value="Delete"/>
+        <a href="/Stocks">Return List</a>
+    </div>
+</form>

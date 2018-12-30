@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Application.Core.Models;
-using Application.Infrastructure; 
+using Application.Infrastructure;
 using Application.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.API.Controllers
@@ -12,55 +12,67 @@ namespace Application.API.Controllers
     [ApiController]
     public class StockController : ControllerBase
     {
-
         private readonly IStockRepository _stockRepository;
 
         public StockController(IStockRepository stockRepository)
         {
             _stockRepository = stockRepository;
         }
-        
-        // GET api/values
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
-        {
-            return new string[] {"value1", "value2"};
-        }
 
-        [HttpGet("{userId}"),Route("StockList/{userId}")]
+
+        [HttpGet("{userId}"), Route("StockList/{userId}")]
         public async Task<IEnumerable<Stocks>> StockList(string userId)
         {
             return await _stockRepository.GetAllStocks(userId);
         }
-        
-        [HttpGet]
-        public async Task<Stocks> Stocks(string stockCode,string userId="")
+
+        [HttpGet,Route("Stock/{stockId}/{userId}")]
+        public async Task<Stocks> Stock([FromRoute] string stockId, [FromRoute] string userId)
         {
-            return await _stockRepository.GetStock(stockCode,userId)?? new Stocks();
+            return await _stockRepository.GetStock(x => x.UserId == userId && x.Id == stockId) ?? new Stocks();
         }
 
-        [HttpPost,Route("AddStock")]
-        public async Task<Result> AddStock([FromBody] Stocks stock)
+        [HttpPost, Route("AddStock")]
+        public async Task<IActionResult> AddStock([FromBody] Stocks stock)
         {
-            return await _stockRepository.AddStock(new Stocks
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var result = await _stockRepository.AddStock(new Stocks
             {
-                StockCode = stock.StockCode, Price = stock.Price, IsActive = stock.IsActive, UserId = stock.UserId
+                Code = stock.Code,Name = stock.Name, Price = stock.Price,Piece = stock.Piece, IsActive = stock.IsActive, UserId = stock.UserId
             });
+            return Ok(result);
         }
-        
-        [HttpPut,Route("UpdateStock")]
-        public async Task<Result> UpdateStock([FromBody] Stocks stock)
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateStock([FromRoute] string id, [FromBody] Stocks stock)
         {
-            return await _stockRepository.UpdateStock(new Stocks
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            if (!_stockRepository.StockIsExists(id, stock.UserId))
+                return NotFound();
+
+            var result = await _stockRepository.UpdateStock(id, new Stocks
             {
-                StockCode = stock.StockCode, Price = stock.Price, IsActive = stock.IsActive, UserId = stock.UserId
+                Id = id, Code = stock.Code,Name = stock.Name, Price = stock.Price,Piece=stock.Piece, IsActive = stock.IsActive,
+                UserId = stock.UserId
             });
+
+            return Ok(result);
         }
-        
-        [HttpPost,Route("DeleteStock")]
-        public async Task<Result> DeleteStock([FromBody] Stocks stock)
+
+         [HttpDelete]
+        public async Task<IActionResult> DeleteStock([FromQuery] string stockId, [FromQuery] string userId)
         {
-            return await _stockRepository.DeleteStock(stock.UserId , stock.StockCode);
+            if (_stockRepository.StockIsExists(stockId, userId))
+            {
+                var result = await _stockRepository.DeleteStock(userId, stockId);
+                return Ok(result);
+            }
+
+            return NotFound();
         }
     }
 }

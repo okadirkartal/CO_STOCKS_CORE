@@ -1,0 +1,25 @@
+@using Application.Infrastructure
+@model StockSettings
+
+<form id="stockSettingForm" method="post" action="Index">
+    @Html.HiddenFor(x => x.UserId)
+    @Html.HiddenFor(x => x.Id)
+
+    @Html.ValidationSummary()
+    @Html.AntiForgeryToken()
+
+    <table class="table table-striped table-bordered table-responsive table-condensed table-hover">
+        <tr>
+            <td>@Html.DisplayNameFor(x => x.TickerSecond)</td>
+            <td>@Html.TextBoxFor(model => model.TickerSecond, new {maxlength = 10})</td>
+        </tr>
+
+
+        <tr>
+            <td colspan="3" align="center">
+                <button class="btn btn-inverse" type="submit">Save</button>
+            </td>
+        </tr>
+
+    </table>
+</form>

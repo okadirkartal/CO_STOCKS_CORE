@@ -11,8 +11,8 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="Controllers" t="Include">
           <e p="StockController.cs" t="Include" />
+          <e p="StockSettingsController.cs" t="Include" />
           <e p="UsersController.cs" t="Include" />
-          <e p="ValuesController.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
@@ -32,6 +32,7 @@
         <e p="Application.Core.csproj" t="IncludeRecursive" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="Models" t="Include">
+          <e p="AppSettingsProvider.cs" t="Include" />
           <e p="Result.cs" t="Include" />
           <e p="ViewModels" t="Include">
             <e p="loginRegisterViewModel.cs" t="Include" />
@@ -55,7 +56,6 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="DAL" t="Include">
           <e p="DocumentDBRepository.cs" t="Include" />
-          <e p="IDocumentDBRepository.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
@@ -66,11 +66,12 @@
         </e>
         <e p="Repositories" t="Include">
           <e p="IStockRepository.cs" t="Include" />
+          <e p="IStockSettingsRepository.cs" t="Include" />
           <e p="IUserRepository.cs" t="Include" />
           <e p="StockRepository.cs" t="Include" />
+          <e p="StockSettingsRepository.cs" t="Include" />
           <e p="UserRepository.cs" t="Include" />
         </e>
-        <e p="Settings.cs" t="Include" />
         <e p="Stocks.cs" t="Include" />
         <e p="StockSettings.cs" t="Include" />
         <e p="Users.cs" t="Include" />
@@ -84,6 +85,7 @@
           <e p="BaseController.cs" t="Include" />
           <e p="HomeController.cs" t="Include" />
           <e p="StocksController.cs" t="Include" />
+          <e p="StockSettingsController.cs" t="Include" />
           <e p="UsersController.cs" t="Include" />
         </e>
         <e p="Models" t="Include">
@@ -118,6 +120,11 @@
             <e p="Error.cshtml" t="Include" />
           </e>
           <e p="Stocks" t="Include">
+            <e p="DeleteStock.cshtml" t="Include" />
+            <e p="Index.cshtml" t="Include" />
+            <e p="StockForm.cshtml" t="Include" />
+          </e>
+          <e p="StockSettings" t="Include">
             <e p="Index.cshtml" t="Include" />
           </e>
           <e p="Users" t="Include">
@@ -199,7 +206,29 @@
           </e>
         </e>
       </e>
+      <e p="co_Stock_ui/ClientApp/node_modules" t="ExcludeRecursive">
+        <e p="bootstrap" t="IncludeRecursive" />
+        <e p="react" t="IncludeRecursive" />
+        <e p="react-bootstrap" t="IncludeRecursive" />
+        <e p="react-dom" t="IncludeRecursive" />
+        <e p="react-router-bootstrap" t="IncludeRecursive" />
+        <e p="react-router-dom" t="IncludeRecursive" />
+        <e p="react-scripts" t="IncludeRecursive" />
+        <e p="rimraf" t="IncludeRecursive" />
+      </e>
       <e p="co_stocks.sln" t="IncludeFlat" />
+      <e p="ConsoleApp1" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="ConsoleApp1.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.1" t="Include">
+              <e p="ConsoleApp1.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+      </e>
       <e p="packages" t="ExcludeRecursive" />
     </e>
   </component>

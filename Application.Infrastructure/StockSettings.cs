@@ -1,16 +1,19 @@
+ using MongoDB.Bson;
+ using MongoDB.Bson.Serialization.Attributes;
  using Newtonsoft.Json;
 
 namespace Application.Infrastructure
 { 
     public class StockSettings
     {
-        [JsonProperty(PropertyName = "id")]
-        public int Id { get; set; }
+        [BsonId,BsonElement]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
         
-        [JsonProperty(PropertyName = "userid")]
-        public int UserId { get; set; }
+        [BsonElement("UserId")]
+        public string UserId { get; set; }
         
-        [JsonProperty(PropertyName = "stocktickersecond")]
-        public int StockTickerSecond { get; set; }
+        [BsonElement("TickerSecond")]
+        public int TickerSecond { get; set; }
     }
 }
