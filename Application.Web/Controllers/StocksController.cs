@@ -43,7 +43,7 @@ namespace Application.Web.Controllers
             IEnumerable<Stocks> result = null;
 
             HttpResponseMessage response = await Client.GetAsync($"Stock/StockList/{User.GetUserId()}");
-           
+
             if (response.IsSuccessStatusCode)
             {
                 result = await response.Content.ReadAsAsync<IEnumerable<Stocks>>();
@@ -75,9 +75,9 @@ namespace Application.Web.Controllers
         {
             Stocks result = null;
             HttpResponseMessage response = null;
-          
+
             stock.UserId = User.GetUserId();
-            
+
             if (stock.Id == null)
             {
                 response = await Client.PostAsJsonAsync("Stock/AddStock/", stock);

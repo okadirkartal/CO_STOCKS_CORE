@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using Application.API.Jwt;
 using Application.Core.Models;
-using Application.Core.Models.ViewModels;
 using Application.Infrastructure;
 using Application.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;

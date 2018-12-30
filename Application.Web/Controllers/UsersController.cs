@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Application.Core.Models;
@@ -11,7 +8,6 @@ using Application.Web.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -52,26 +48,26 @@ namespace Application.Web.Controllers
                 {
                     user = await response.Content.ReadAsAsync<Users>();
 
-                    if (user!=null)
+                    if (user != null)
                     {
                         var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
                         identity.AddClaim(new Claim("UserId", user.Id));
                         identity.AddClaim(new Claim("UserName", user.UserName));
                         identity.AddClaim(new Claim("Password", user.Password));
                         identity.AddClaim(new Claim("Token", user.Token));
-                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, 
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                             new ClaimsPrincipal(identity));
-                             
-                      HttpContext.Session.SetObjectAsJson("Token",user.Token);
-                       
+
+                        HttpContext.Session.SetObjectAsJson("Token", user.Token);
+
                         return Redirect("/Stocks");
                     }
                 }
 
-               // ViewBag.Message = result?.ReturnMessage;
+                // ViewBag.Message = result?.ReturnMessage;
             }
 
-            return View("Index",new LoginRegisterViewModel(){ loginViewModel = model});
+            return View("Index", new LoginRegisterViewModel() {loginViewModel = model});
         }
 
         [HttpPost]
@@ -83,7 +79,7 @@ namespace Application.Web.Controllers
             {
                 Result result = null;
 
-                
+
                 HttpResponseMessage response = await Client.PostAsJsonAsync("/Users/Register", model);
                 response.EnsureSuccessStatusCode();
                 if (response.IsSuccessStatusCode)
@@ -112,8 +108,6 @@ namespace Application.Web.Controllers
             HttpContext.Response.Cookies.Delete("Token");
             await HttpContext.SignOutAsync("Cookies");
             return RedirectToAction("Index");
-
         }
     }
 }
-

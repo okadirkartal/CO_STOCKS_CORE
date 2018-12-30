@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Application.Infrastructure;
 using Application.Web.Extensions;
 using Application.Web.Filters;
-using Application.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -24,12 +23,12 @@ namespace Application.Web.Controllers
             ViewBag.Title = "Stock Settings";
             StockSettings result = null;
             HttpResponseMessage response = await Client.GetAsync($"StockSettings/{User.GetUserId()}");
-            
+
             if (response.IsSuccessStatusCode)
             {
                 result = await response.Content.ReadAsAsync<StockSettings>();
             }
- 
+
             return View(result);
         }
 
@@ -47,7 +46,7 @@ namespace Application.Web.Controllers
                 result = await response.Content.ReadAsAsync<StockSettings>();
                 return Redirect("/Stocks");
             }
- 
+
             return View(model);
         }
     }

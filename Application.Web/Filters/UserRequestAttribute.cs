@@ -1,18 +1,10 @@
 using System;
-using Application.Web.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Security.Cryptography.X509Certificates;
 using Application.Infrastructure;
 using Application.Web.Controllers;
 using Application.Web.Extensions;
-using Microsoft.Extensions.Primitives;
-using  System.Linq;
-using System.Security.Claims;
-using System.Threading;
 
 namespace Application.Web.Filters
 {
@@ -28,12 +20,12 @@ namespace Application.Web.Filters
 
             if (client.DefaultRequestHeaders.Authorization == null)
             {
-                 client.DefaultRequestHeaders.Add("Authorization", "Bearer " + 
-                    (context.HttpContext.Session.GetObjectFromJson<string>("Token")??
-                    context.HttpContext.User.GetToken()));
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " +
+                                                                  (context.HttpContext.Session
+                                                                       .GetObjectFromJson<string>("Token") ??
+                                                                   context.HttpContext.User.GetToken()));
             }
-            
-            
+
 
             HttpResponseMessage response = client.GetAsync($"TokenValidator").Result;
 
@@ -51,9 +43,9 @@ namespace Application.Web.Filters
                 if (response.IsSuccessStatusCode)
                 {
                     var newUser = response.Content.ReadAsAsync<Users>().Result;
-                    context.HttpContext.Session.SetObjectAsJson("Token",newUser.Token);
+                    context.HttpContext.Session.SetObjectAsJson("Token", newUser.Token);
                     client.DefaultRequestHeaders.Remove("Authorization");
-                    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + newUser.Token);                    
+                    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + newUser.Token);
                 }
             }
 

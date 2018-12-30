@@ -52,30 +52,32 @@ namespace Application.API
                 {
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
-                      ValidateIssuer = true,ValidateAudience = true,ValidateLifetime = true,ValidateIssuerSigningKey = true,
-                      ValidIssuer    = Configuration.GetSection("Authentication:Issuer").Value,
-                      ValidAudience  = Configuration.GetSection("Authentication:Audience").Value,
-                      IssuerSigningKey = JwtSecurityKey.Create(Configuration.GetSection("Authentication:SecurityKey").Value)
+                        ValidateIssuer = true, ValidateAudience = true, ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration.GetSection("Authentication:Issuer").Value,
+                        ValidAudience = Configuration.GetSection("Authentication:Audience").Value,
+                        IssuerSigningKey =
+                            JwtSecurityKey.Create(Configuration.GetSection("Authentication:SecurityKey").Value)
                     };
 
                     options.Events = new JwtBearerEvents
                     {
-                      OnAuthenticationFailed = context =>
-                      {
-                        Console.WriteLine($"OnAuthenticationFailed {context.Exception.Message}");
-                          return Task.CompletedTask;
-                      },
-                      OnTokenValidated = context =>
-                      {
+                        OnAuthenticationFailed = context =>
+                        {
+                            Console.WriteLine($"OnAuthenticationFailed {context.Exception.Message}");
+                            return Task.CompletedTask;
+                        },
+                        OnTokenValidated = context =>
+                        {
                             Console.WriteLine($"OnTokenValidated : {context.SecurityToken}");
-                          return Task.CompletedTask;
-                      }
+                            return Task.CompletedTask;
+                        }
                     };
                 });
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("Member",policy=>policy.RequireClaim("MembershipId"));
+                options.AddPolicy("Member", policy => policy.RequireClaim("MembershipId"));
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

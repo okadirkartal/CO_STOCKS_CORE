@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Core.Models;
-using Application.Core.Models.ViewModels;
 using Application.Infrastructure.DAL;
 using MongoDB.Driver;
 
@@ -16,7 +14,7 @@ namespace Application.Infrastructure.Repositories
             base.Initialize();
             _collection = database.GetCollection<Users>(nameof(Users));
         }
-       
+
 
         public async Task<Result> Login(Users model)
         {
@@ -38,7 +36,7 @@ namespace Application.Infrastructure.Repositories
                 var filter = Builders<Users>.Filter.Eq(x => x.Id, user.Id);
 
                 await Update(filter, user);
-                result.Model = user; 
+                result.Model = user;
             }
             catch (Exception ex)
             {
@@ -53,10 +51,8 @@ namespace Application.Infrastructure.Repositories
             var result = new Result() {IsSuccess = false};
             try
             {
-
-
                 var user = await Get(x => x.UserName == model.UserName);
-                   
+
                 if (user?.FirstOrDefault() == null)
                 {
                     var newUser = new Users
@@ -64,8 +60,8 @@ namespace Application.Infrastructure.Repositories
                         Name = model.Name, Password = model.Password, CreationDate = DateTime.Now,
                         SurName = model.SurName, UserName = model.UserName
                     };
-                    
-                     await Create(newUser);
+
+                    await Create(newUser);
                     result.IsSuccess = true;
                     result.ReturnMessage = "User added";
                     result.Model = user;
@@ -81,7 +77,7 @@ namespace Application.Infrastructure.Repositories
             catch (Exception ex)
             {
                 throw ex;
-            } 
+            }
         }
     }
 }
