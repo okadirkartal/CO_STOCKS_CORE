@@ -3,11 +3,16 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Application.Core.Models;
 using Application.Infrastructure;
+using Application.Web.Extensions;
+using Application.Web.Filters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
 namespace Application.Web.Controllers
 {
+    [Authorize]
+    [UserRequest]
     public class StocksController : BaseController
     {
         public StocksController(IConfiguration configuration) : base(configuration)
@@ -15,11 +20,11 @@ namespace Application.Web.Controllers
         }
 
 
-        private async Task<int> GetStockSettings(string userId)
+        private async Task<int> GetStockSettings()
         {
             StockSettings result = null;
 
-            HttpResponseMessage response = await Client.GetAsync($"StockSettings/{userId}/");
+            HttpResponseMessage response = await Client.GetAsync($"StockSettings/{User.GetUserId()}/");
 
             if (response.IsSuccessStatusCode)
             {
@@ -37,25 +42,24 @@ namespace Application.Web.Controllers
             ViewBag.Title = "Stock List";
             IEnumerable<Stocks> result = null;
 
-            HttpResponseMessage response = await Client.GetAsync("Stock/StockList/1");
-            //response.EnsureSuccessStatusCode();
-
+            HttpResponseMessage response = await Client.GetAsync($"Stock/StockList/{User.GetUserId()}");
+           
             if (response.IsSuccessStatusCode)
             {
                 result = await response.Content.ReadAsAsync<IEnumerable<Stocks>>();
             }
 
-            TempData["TickerSecond"] = await GetStockSettings("1");
+            TempData["TickerSecond"] = await GetStockSettings();
             return View(result);
         }
 
         [HttpGet]
-        public async Task<IActionResult> StockForm(string userId, string stockId)
+        public async Task<IActionResult> StockForm(string stockId)
         {
             ViewBag.Title = "Stock Form";
             Stocks result = null;
 
-            HttpResponseMessage response = await Client.GetAsync($"Stock/Stock/{stockId}/{userId}");
+            HttpResponseMessage response = await Client.GetAsync($"Stock/Stock/{stockId}/{User.GetUserId()}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -71,7 +75,9 @@ namespace Application.Web.Controllers
         {
             Stocks result = null;
             HttpResponseMessage response = null;
-
+          
+            stock.UserId = User.GetUserId();
+            
             if (stock.Id == null)
             {
                 response = await Client.PostAsJsonAsync("Stock/AddStock/", stock);
@@ -83,7 +89,6 @@ namespace Application.Web.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                result = await response.Content.ReadAsAsync<Stocks>();
                 return RedirectToAction("Index");
             }
 
@@ -91,13 +96,13 @@ namespace Application.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> DeleteStock(string userId, string stockId)
+        public async Task<IActionResult> DeleteStock(string stockId)
         {
             ViewBag.Title = "Delete Stock";
 
             Stocks result = null;
 
-            HttpResponseMessage response = await Client.GetAsync($"Stock/Stock/{stockId}/{userId}");
+            HttpResponseMessage response = await Client.GetAsync($"Stock/Stock/{stockId}/{User.GetUserId()}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -114,7 +119,8 @@ namespace Application.Web.Controllers
             ViewBag.Title = "Delete Stock";
             Result result = null;
 
-            HttpResponseMessage response = await Client.DeleteAsync($"Stock?stockId={stock.Id}&userId={stock.UserId}");
+            HttpResponseMessage response =
+                await Client.DeleteAsync($"Stock?stockId={stock.Id}&userId={User.GetUserId()}");
 
             if (response.IsSuccessStatusCode)
             {

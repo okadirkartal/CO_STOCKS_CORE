@@ -21,5 +21,7 @@ namespace Application.Infrastructure
         [BsonElement("CreationDate")] public DateTime? CreationDate { get; set; }
 
         [BsonElement("LastLoginDate")] public DateTime? LastLoginDate { get; set; }
+
+        public string Token { get; set; }
     }
 }

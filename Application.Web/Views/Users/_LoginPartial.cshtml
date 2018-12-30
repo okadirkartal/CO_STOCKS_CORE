@@ -4,8 +4,8 @@
     ViewBag.Title = "Login"; 
 }
 
-<h2>Login</h2>
-<form method="post" asp-controller="Users" action="_LoginPartial" class="form-horizontal" role="form"> 
+ 
+<form method="post" asp-controller="Users" asp-action="_LoginPartial" class="form-horizontal" role="form"> 
     @Html.AntiForgeryToken()
     <span class="text-danger">  @Html.Raw(ViewBag.Message)</span>
     <hr />

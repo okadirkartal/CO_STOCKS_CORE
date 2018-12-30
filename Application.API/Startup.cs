@@ -1,4 +1,7 @@
-﻿using Application.Infrastructure.Repositories;
+﻿using System;
+using System.Threading.Tasks;
+using Application.API.Jwt;
+using Application.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
@@ -6,6 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Application.Core.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Application.API
 {
@@ -42,6 +47,37 @@ namespace Application.API
         {
             services.AddCors(options => { options.AddPolicy("AllowOrigin", GenerateCorsPolicy()); });
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                      ValidateIssuer = true,ValidateAudience = true,ValidateLifetime = true,ValidateIssuerSigningKey = true,
+                      ValidIssuer    = Configuration.GetSection("Authentication:Issuer").Value,
+                      ValidAudience  = Configuration.GetSection("Authentication:Audience").Value,
+                      IssuerSigningKey = JwtSecurityKey.Create(Configuration.GetSection("Authentication:SecurityKey").Value)
+                    };
+
+                    options.Events = new JwtBearerEvents
+                    {
+                      OnAuthenticationFailed = context =>
+                      {
+                        Console.WriteLine($"OnAuthenticationFailed {context.Exception.Message}");
+                          return Task.CompletedTask;
+                      },
+                      OnTokenValidated = context =>
+                      {
+                            Console.WriteLine($"OnTokenValidated : {context.SecurityToken}");
+                          return Task.CompletedTask;
+                      }
+                    };
+                });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Member",policy=>policy.RequireClaim("MembershipId"));
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddTransient<IUserRepository, UserRepository>();
@@ -63,6 +99,8 @@ namespace Application.API
 
             app.UseHttpsRedirection();
             app.UseCors("AllowOrigin");
+            app.UseAuthentication();
+            app.UseMvcWithDefaultRoute();
             app.UseMvc();
         }
     }

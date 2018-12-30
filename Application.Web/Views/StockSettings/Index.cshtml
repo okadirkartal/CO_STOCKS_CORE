@@ -1,8 +1,7 @@
 @using Application.Infrastructure
 @model StockSettings
 
-<form id="stockSettingForm" method="post" action="Index">
-    @Html.HiddenFor(x => x.UserId)
+<form id="stockSettingForm" method="post" asp-action="Index">
     @Html.HiddenFor(x => x.Id)
 
     @Html.ValidationSummary()

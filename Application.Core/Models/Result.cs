@@ -12,5 +12,7 @@ namespace Application.Core.Models
         public int ReturnCode { get; set; }
 
         public bool IsSuccess { get; set; }
+        
+        public object Model { get; set; }
     }
 }

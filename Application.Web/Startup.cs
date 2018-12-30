@@ -1,3 +1,5 @@
+using Application.Web.Filters;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -26,8 +28,14 @@ namespace Application.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddAuthentication(o =>
+            {
+                o.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            }).AddCookie("Cookies");
+            
+            
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +55,8 @@ namespace Application.Web
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

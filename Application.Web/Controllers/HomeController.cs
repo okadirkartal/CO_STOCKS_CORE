@@ -8,5 +8,10 @@ namespace Application.Web.Controllers
         {
             return View();
         }
+
+        public IActionResult Unathorized()
+        {
+            return View();
+        }
     }
 }

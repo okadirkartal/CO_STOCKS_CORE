@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Net.Http
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -34,21 +35,18 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-            <li><a href="/Stocks/Index">Stock List</a>    @* @Html.ActionLink("Stocks", "StockList", "Stocks")</li>  *@
-                <li><a href="/Stocks/StockForm/1">Add Stock</a>  
-                <li><a href="/StockSettings/Index/1">Stock Settings</a>  
-                @*@if (!string.IsNullOrEmpty(Current.User.userGUID))
+                @if (User.Identity.IsAuthenticated)
                 {
 
-                    <li>@Html.ActionLink("Add Stock", "AddStock", "Stock")</li>
-                    <li>@Html.ActionLink("Stock List", "StockList", "Stock")</li>
-                    <li>@Html.ActionLink("Stock Settings", "StockSettings", "Stock")</li>
-                    <li>@Html.ActionLink("Logout", "Logout", "Stock")</li>
+                    <li>@Html.ActionLink("Add Stock", "StockForm", "Stocks")</li>
+                    <li>@Html.ActionLink("Stock List", "Index", "Stocks")</li>
+                    <li>@Html.ActionLink("Stock Settings", "Index", "StockSettings")</li>
+                    <li>@Html.ActionLink("Logout", "Logout", "Users")</li>
                 }
                 else
                 { 
-                    <li>@Html.ActionLink("Login/Register", "Login", "Stock")</li>
-                }*@
+                    <li>@Html.ActionLink("Login", "Index", "Users")</li>
+                } 
             </ul>
               
         </div>

@@ -16,14 +16,15 @@ namespace Application.Infrastructure.Repositories
             base.Initialize();
             _collection = database.GetCollection<Users>(nameof(Users));
         }
+       
 
-        public async Task<Result> Login(LoginViewModel loginViewModel)
+        public async Task<Result> Login(Users model)
         {
-            var result = new Result() {IsSuccess = false};
+            var result = new Result() {IsSuccess = true};
             try
             {
-                var user = Get(x => x.UserName == loginViewModel.username &&
-                                    x.Password == loginViewModel.password).Result
+                var user = Get(x => x.UserName == model.UserName &&
+                                    x.Password == model.Password).Result
                     ?.FirstOrDefault();
                 if (user == null)
                 {
@@ -37,10 +38,7 @@ namespace Application.Infrastructure.Repositories
                 var filter = Builders<Users>.Filter.Eq(x => x.Id, user.Id);
 
                 await Update(filter, user);
-
-                result.ReturnMessageList = new List<string>();
-                result.ReturnMessageList.Add(user.Id.ToString());
-                result.ReturnMessageList.Add(user.UserName);
+                result.Model = user; 
             }
             catch (Exception ex)
             {
@@ -50,29 +48,27 @@ namespace Application.Infrastructure.Repositories
             return result;
         }
 
-        public async Task<Result> Register(RegisterViewModel model)
+        public async Task<Result> Register(Users model)
         {
             var result = new Result() {IsSuccess = false};
-            /*try
+            try
             {
-                if (!model.password.Equals(model.passwordRepeat))
-                {
-                    result.ReturnMessage = "Password and password repeat did not match";
-                    result.IsSuccess = false;
-                    return result;
-                }
 
-                var user = DocumentDbRepository<Users>.GetItemsAsync(x => x.UserName == model.username).Result
-                    ?.FirstOrDefault();
-                if (user == null)
+
+                var user = await Get(x => x.UserName == model.UserName);
+                   
+                if (user?.FirstOrDefault() == null)
                 {
-                    await DocumentDbRepository<Users>.CreateItemAsync(new Users
+                    var newUser = new Users
                     {
-                        Name = model.name, Password = model.password, CreationDate = DateTime.Now,
-                        SurName = model.surname, UserName = model.username
-                    });
+                        Name = model.Name, Password = model.Password, CreationDate = DateTime.Now,
+                        SurName = model.SurName, UserName = model.UserName
+                    };
+                    
+                     await Create(newUser);
                     result.IsSuccess = true;
-                    result.ReturnMessage = "Stock added";
+                    result.ReturnMessage = "User added";
+                    result.Model = user;
                 }
                 else
                 {
@@ -85,8 +81,7 @@ namespace Application.Infrastructure.Repositories
             catch (Exception ex)
             {
                 throw ex;
-            }*/
-            return result;
+            } 
         }
     }
 }

@@ -1,7 +1,7 @@
 @using Application.Infrastructure
 @model Stocks 
 
-<form id="stockForm" method="post" action="StockForm">
+<form id="stockEditForm" method="post"  asp-action="StockForm" asp-controller="Stocks">
     @Html.HiddenFor(x=>x.UserId)
     @Html.HiddenFor(x=>x.Id)
      

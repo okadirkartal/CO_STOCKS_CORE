@@ -6,8 +6,8 @@ namespace Application.Infrastructure.Repositories
 {
     public interface IUserRepository
     {
-        Task<Result> Login(LoginViewModel loginViewModel);
+        Task<Result> Login(Users model);
 
-        Task<Result> Register(RegisterViewModel registerViewModel);
+        Task<Result> Register(Users model);
     }
 }

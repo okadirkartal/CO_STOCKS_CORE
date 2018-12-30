@@ -1,10 +1,12 @@
 using System.Threading.Tasks;
 using Application.Infrastructure;
 using Application.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.API.Controllers
 {
+    [Authorize(Policy = "Member")]
     [Produces("application/json")]
     [Route("api/StockSettings")]
     [ApiController]
@@ -25,15 +27,15 @@ namespace Application.API.Controllers
         }
 
 
-        [HttpPost]
-        public async Task<IActionResult> UpdateTickerSecond([FromBody] StockSettings model)
+        [HttpPost("{userId}")]
+        public async Task<IActionResult> UpdateTickerSecond([FromRoute]string userId,[FromBody] StockSettings model)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
             var result = await _stockSettingsRepository.UpdateStockSettings(new StockSettings
             {
-                Id = model.Id, TickerSecond = model.TickerSecond, UserId = model.UserId
+                Id = model.Id, TickerSecond = model.TickerSecond, UserId = userId
             });
             return Ok(result);
         }

@@ -1,10 +1,16 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Application.Core.Models;
 using Application.Core.Models.ViewModels;
+using Application.Infrastructure;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -12,19 +18,18 @@ namespace Application.Web.Controllers
 {
     public class UsersController : BaseController
     {
-       private readonly IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
 
-        public UsersController(IConfiguration configuration) : base(configuration) { }
+        public UsersController(IConfiguration configuration) : base(configuration)
+        {
+        }
 
 
         // GET
-        public IActionResult Index()
-        {
-            return
-                View();
-        }
 
-        public IActionResult Login()
+
+        [HttpGet]
+        public IActionResult Index()
         {
             return View(new LoginRegisterViewModel());
         }
@@ -34,35 +39,38 @@ namespace Application.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> _LoginPartial(LoginViewModel model)
         {
+            ViewBag.Title = "Login";
             if (ModelState.IsValid)
             {
-                Result result = null;
+                Users user = null;
 
-                HttpResponseMessage response = await Client.PostAsJsonAsync("/Users/Login",model);
-                response.EnsureSuccessStatusCode();
-                
+                HttpResponseMessage response = await Client.PostAsJsonAsync("Users/Login", model);
+
+
                 if (response.IsSuccessStatusCode)
                 {
-                    result = await response.Content.ReadAsAsync<Result>();
+                    user = await response.Content.ReadAsAsync<Users>();
+
+                    if (user!=null)
+                    {
+                        var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+                        identity.AddClaim(new Claim("UserId", user.Id));
+                        identity.AddClaim(new Claim("UserName", user.UserName));
+                        identity.AddClaim(new Claim("Password", user.Password));
+                        identity.AddClaim(new Claim("Token", user.Token));
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, 
+                            new ClaimsPrincipal(identity));
+                             
+                        Response.Cookies.Append("Token",user.Token);
+                       
+                        return Redirect("/Stocks");
+                    }
                 }
 
-                if (result.IsSuccess)
-                {
-                    //  Current.User = new userSessionModel()
-                    //    { userGUID = result.ReturnMessageList[0], userName = result.ReturnMessageList[1] };
-
-
-                 /*   string url = !string.IsNullOrEmpty(Request.Query["returnUrl"][0])
-                        ? Request.Query["returnUrl"]
-                        : "/Stock/Index";
-
-                    return Redirect(url);
-               */ }
-
-                ViewBag.Message = result.ReturnMessage;
+               // ViewBag.Message = result?.ReturnMessage;
             }
 
-            return View(model);
+            return View("Index",new LoginRegisterViewModel(){ loginViewModel = model});
         }
 
         [HttpPost]
@@ -74,7 +82,8 @@ namespace Application.Web.Controllers
             {
                 Result result = null;
 
-                HttpResponseMessage response = await Client.PostAsJsonAsync("/Users/Register",model);
+                
+                HttpResponseMessage response = await Client.PostAsJsonAsync("/Users/Register", model);
                 response.EnsureSuccessStatusCode();
                 if (response.IsSuccessStatusCode)
                 {
@@ -94,5 +103,16 @@ namespace Application.Web.Controllers
 
             return View(model);
         }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            HttpContext.Response.Cookies.Delete("Token");
+            await HttpContext.SignOutAsync("Cookies");
+            return RedirectToAction("Index");
+
+        }
     }
 }
+

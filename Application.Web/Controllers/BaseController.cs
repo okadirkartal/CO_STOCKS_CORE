@@ -1,7 +1,13 @@
 using System;
 using System.Diagnostics;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Security.Claims;
+using System.Threading;
+using System.Threading.Tasks;
+using Application.Infrastructure;
+using Application.Web.Extensions;
 using Application.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +30,8 @@ namespace Application.Web.Controllers
 
             _client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
+            
+            
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -36,5 +44,7 @@ namespace Application.Web.Controllers
         {
             get { return _client; }
         }
+
+       
     }
 }
