@@ -28,7 +28,9 @@ namespace Application.Web.Filters
 
             if (client.DefaultRequestHeaders.Authorization == null)
             {
-                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + context.HttpContext.Request.Cookies["Token"]);
+                 client.DefaultRequestHeaders.Add("Authorization", "Bearer " + 
+                    (context.HttpContext.Session.GetObjectFromJson<string>("Token")??
+                    context.HttpContext.User.GetToken()));
             }
             
             
@@ -49,12 +51,9 @@ namespace Application.Web.Filters
                 if (response.IsSuccessStatusCode)
                 {
                     var newUser = response.Content.ReadAsAsync<Users>().Result;
+                    context.HttpContext.Session.SetObjectAsJson("Token",newUser.Token);
                     client.DefaultRequestHeaders.Remove("Authorization");
-                    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + newUser.Token);
-                    
-                    context.HttpContext.Response.Cookies.Delete("Token");
-                    context.HttpContext.Response.Cookies.Append("Token",newUser.Token);
-
+                    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + newUser.Token);                    
                 }
             }
 

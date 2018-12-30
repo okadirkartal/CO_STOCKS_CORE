@@ -32,8 +32,8 @@ namespace Application.Web
             {
                 o.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             }).AddCookie("Cookies");
-            
-            
+
+            services.AddSession();
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -53,6 +53,7 @@ namespace Application.Web
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSession();
             app.UseCookiePolicy();
 
 

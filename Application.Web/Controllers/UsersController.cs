@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Application.Core.Models;
 using Application.Core.Models.ViewModels;
 using Application.Infrastructure;
+using Application.Web.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -61,7 +62,7 @@ namespace Application.Web.Controllers
                         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, 
                             new ClaimsPrincipal(identity));
                              
-                        Response.Cookies.Append("Token",user.Token);
+                      HttpContext.Session.SetObjectAsJson("Token",user.Token);
                        
                         return Redirect("/Stocks");
                     }
