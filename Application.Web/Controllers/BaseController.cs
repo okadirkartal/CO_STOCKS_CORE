@@ -10,7 +10,7 @@ namespace Application.Web.Controllers
 {
     public class BaseController : Controller
     {
-        private  readonly HttpClient _client = new HttpClient();
+        private readonly HttpClient _client = new HttpClient();
 
         private readonly IConfiguration _configuration;
 
@@ -20,13 +20,10 @@ namespace Application.Web.Controllers
 
             _client.BaseAddress = new Uri(_configuration.GetSection("ApplicationSettings:BaseApiUrl").Value);
             _client.DefaultRequestHeaders.Accept.Clear();
-            
-          
-            
+
+
             _client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
-          
-            
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -34,13 +31,10 @@ namespace Application.Web.Controllers
         {
             return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
         }
-        
+
         public HttpClient Client
         {
-            get
-            {
-                return  _client;
-            }
+            get { return _client; }
         }
     }
 }

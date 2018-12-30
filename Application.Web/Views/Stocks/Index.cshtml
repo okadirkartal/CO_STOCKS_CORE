@@ -1,7 +1,11 @@
 @using Application.Infrastructure
 @model IEnumerable<Stocks>
 
-     
+ 
+@if ( TempData["TickerSecond"] != "0")
+{
+    <script type="text/javascript">setTimeout(function () { location.reload(1); }, @TempData["TickerSecond"]);</script>
+}
 
 @if (Model.Any())
 {

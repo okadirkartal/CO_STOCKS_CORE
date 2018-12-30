@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Application.Core.Models;
-using MongoDB.Bson;
 
 namespace Application.Infrastructure.Repositories
 {

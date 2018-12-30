@@ -1,10 +1,7 @@
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Application.Core.Models;
 using Application.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Configuration;
 
 namespace Application.Web.Controllers

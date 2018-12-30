@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Application.Infrastructure;
-using Application.Infrastructure.DAL;
-using Application.Infrastructure.Repositories;
+﻿using Application.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
- using Application.Core.Models;
+using Application.Core.Models;
+
 namespace Application.API
 {
     public class Startup
@@ -27,7 +19,8 @@ namespace Application.API
 
         private void BuildAppSettingsProvider()
         {
-            AppSettingsProvider.MongoDbConnectionString = Configuration.GetSection("MongoDbConnection:connectionString").Value;
+            AppSettingsProvider.MongoDbConnectionString =
+                Configuration.GetSection("MongoDbConnection:connectionString").Value;
             AppSettingsProvider.MongoDbDatabase = Configuration.GetSection("MongoDbConnection:Database").Value;
         }
 
@@ -53,8 +46,7 @@ namespace Application.API
 
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IStockRepository, StockRepository>();
-            services.AddTransient<IStockSettingsRepository,StockSettingsRepository>();
-
+            services.AddTransient<IStockSettingsRepository, StockSettingsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

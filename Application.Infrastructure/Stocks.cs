@@ -11,7 +11,6 @@ namespace Application.Infrastructure
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
-        
         [Display(Name = "Stock Code")]
         [BsonElement("Code")]
         public string Code { get; set; }
@@ -23,7 +22,7 @@ namespace Application.Infrastructure
         [Display(Name = "Stock Price")]
         [BsonElement("Price")]
         public decimal Price { get; set; }
-        
+
         [Display(Name = "Piece")]
         [BsonElement("Piece")]
         public int Piece { get; set; }

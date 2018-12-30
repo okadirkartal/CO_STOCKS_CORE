@@ -10,15 +10,14 @@ using MongoDB.Driver;
 
 namespace Application.Infrastructure.Repositories
 {
-    public class StockRepository : DocumentDbRepository<Stocks>,IStockRepository
+    public class StockRepository : DocumentDbRepository<Stocks>, IStockRepository
     {
-
         public StockRepository()
         {
             base.Initialize();
             _collection = database.GetCollection<Stocks>(nameof(Stocks));
         }
-        
+
         public async Task<IEnumerable<Stocks>> GetAllStocks(string userId)
         {
             try

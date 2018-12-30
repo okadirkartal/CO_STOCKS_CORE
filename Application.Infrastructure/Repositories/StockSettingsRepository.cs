@@ -5,20 +5,18 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Application.Core.Models;
 using Application.Infrastructure.DAL;
-using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Application.Infrastructure.Repositories
 {
-    public class StockSettingsRepository :DocumentDbRepository<StockSettings>,IStockSettingsRepository
+    public class StockSettingsRepository : DocumentDbRepository<StockSettings>, IStockSettingsRepository
     {
-
         public StockSettingsRepository()
         {
             base.Initialize();
             _collection = database.GetCollection<StockSettings>(nameof(StockSettings));
         }
-        
+
         public async Task<StockSettings> GetStockSettings(Expression<Func<StockSettings, bool>> predicate)
         {
             try
@@ -43,7 +41,7 @@ namespace Application.Infrastructure.Repositories
 
                 if (existingItem == null)
                 {
-                    await  Create(stockSettings);
+                    await Create(stockSettings);
                     result.IsSuccess = true;
                     result.ReturnMessage = "StockSettings added";
                     return result;
@@ -52,7 +50,7 @@ namespace Application.Infrastructure.Repositories
                 {
                     var filter = Builders<StockSettings>.Filter.Eq(x => x.Id, stockSettings.Id);
 
-                    await  Update(filter, stockSettings);
+                    await Update(filter, stockSettings);
 
 
                     result.IsSuccess = true;

@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Infrastructure;
 using Application.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.API.Controllers
@@ -26,7 +25,7 @@ namespace Application.API.Controllers
             return await _stockRepository.GetAllStocks(userId);
         }
 
-        [HttpGet,Route("Stock/{stockId}/{userId}")]
+        [HttpGet, Route("Stock/{stockId}/{userId}")]
         public async Task<Stocks> Stock([FromRoute] string stockId, [FromRoute] string userId)
         {
             return await _stockRepository.GetStock(x => x.UserId == userId && x.Id == stockId) ?? new Stocks();
@@ -40,7 +39,8 @@ namespace Application.API.Controllers
 
             var result = await _stockRepository.AddStock(new Stocks
             {
-                Code = stock.Code,Name = stock.Name, Price = stock.Price,Piece = stock.Piece, IsActive = stock.IsActive, UserId = stock.UserId
+                Code = stock.Code, Name = stock.Name, Price = stock.Price, Piece = stock.Piece,
+                IsActive = stock.IsActive, UserId = stock.UserId
             });
             return Ok(result);
         }
@@ -56,14 +56,15 @@ namespace Application.API.Controllers
 
             var result = await _stockRepository.UpdateStock(id, new Stocks
             {
-                Id = id, Code = stock.Code,Name = stock.Name, Price = stock.Price,Piece=stock.Piece, IsActive = stock.IsActive,
+                Id = id, Code = stock.Code, Name = stock.Name, Price = stock.Price, Piece = stock.Piece,
+                IsActive = stock.IsActive,
                 UserId = stock.UserId
             });
 
             return Ok(result);
         }
 
-         [HttpDelete]
+        [HttpDelete]
         public async Task<IActionResult> DeleteStock([FromQuery] string stockId, [FromQuery] string userId)
         {
             if (_stockRepository.StockIsExists(stockId, userId))

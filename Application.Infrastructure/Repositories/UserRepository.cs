@@ -9,21 +9,21 @@ using MongoDB.Driver;
 
 namespace Application.Infrastructure.Repositories
 {
-    public class UserRepository : DocumentDbRepository<Users>,IUserRepository
+    public class UserRepository : DocumentDbRepository<Users>, IUserRepository
     {
         public UserRepository()
         {
             base.Initialize();
             _collection = database.GetCollection<Users>(nameof(Users));
         }
-        
+
         public async Task<Result> Login(LoginViewModel loginViewModel)
         {
             var result = new Result() {IsSuccess = false};
             try
             {
                 var user = Get(x => x.UserName == loginViewModel.username &&
-                                                                          x.Password == loginViewModel.password).Result
+                                    x.Password == loginViewModel.password).Result
                     ?.FirstOrDefault();
                 if (user == null)
                 {
@@ -33,10 +33,10 @@ namespace Application.Infrastructure.Repositories
                 }
 
                 user.LastLoginDate = DateTime.Now;
-                
-                var filter = Builders<Users>.Filter.Eq(x => x.Id,user.Id);
-                
-                await Update(filter,user);
+
+                var filter = Builders<Users>.Filter.Eq(x => x.Id, user.Id);
+
+                await Update(filter, user);
 
                 result.ReturnMessageList = new List<string>();
                 result.ReturnMessageList.Add(user.Id.ToString());

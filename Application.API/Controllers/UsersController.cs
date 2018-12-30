@@ -1,9 +1,6 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Core.Models;
 using Application.Core.Models.ViewModels;
-using Application.Infrastructure;
-using Application.Infrastructure.DAL;
 using Application.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +11,6 @@ namespace Application.API.Controllers
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
-
         private readonly IUserRepository _userRepository;
 
         public UsersController(IUserRepository userRepository)
@@ -23,19 +19,17 @@ namespace Application.API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost,Route("Login")]
-        public async Task<Result> Login([FromBody]LoginViewModel model)
+        [HttpPost, Route("Login")]
+        public async Task<Result> Login([FromBody] LoginViewModel model)
         {
             return await _userRepository.Login(model);
         }
-        
+
         [AllowAnonymous]
-        [HttpPost,Route("Register")]
-        public async Task<Result> Register([FromBody]RegisterViewModel model)
+        [HttpPost, Route("Register")]
+        public async Task<Result> Register([FromBody] RegisterViewModel model)
         {
             return await _userRepository.Register(model);
         }
-
-      
     }
 }
