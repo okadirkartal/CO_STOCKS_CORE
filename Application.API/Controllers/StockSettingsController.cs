@@ -30,9 +30,6 @@ namespace Application.API.Controllers
         [HttpPost("{userId}")]
         public async Task<IActionResult> UpdateTickerSecond([FromRoute]string userId,[FromBody] StockSettings model)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
-
             var result = await _stockSettingsRepository.UpdateStockSettings(new StockSettings
             {
                 Id = model.Id, TickerSecond = model.TickerSecond, UserId = userId

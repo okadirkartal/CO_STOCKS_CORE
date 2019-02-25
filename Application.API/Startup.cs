@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Application.API.Filter;
 using Application.API.Jwt;
 using Application.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Application.Core.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Application.API
@@ -78,13 +80,22 @@ namespace Application.API
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("Member", policy => policy.RequireClaim("MembershipId"));
-            });
-
+            }); 
+            services.AddResponseCaching();
+            services.AddMemoryCache();
+            
+            
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<IStockRepository, StockRepository>();
-            services.AddTransient<IStockSettingsRepository, StockSettingsRepository>();
+            services.Configure<MvcOptions>(x => x.Conventions.Add(new ModelStateValidatorConvension()));
+            
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IStockRepository, StockRepository>();
+            services.AddScoped<IStockSettingsRepository, StockSettingsRepository>();
+            
+            
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -103,6 +114,7 @@ namespace Application.API
             app.UseCors("AllowOrigin");
             app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
+            app.UseResponseCaching();
             app.UseMvc();
         }
     }

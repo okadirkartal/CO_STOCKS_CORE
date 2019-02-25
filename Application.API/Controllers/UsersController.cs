@@ -21,8 +21,8 @@ namespace Application.API.Controllers
 
         [AllowAnonymous]
         [HttpPost, Route("Login")]
-        public async Task<Users> Login([FromBody] Users model)
-        {
+        public async Task<IActionResult> Login([FromBody] Users model)
+        {      
             var result= await _userRepository.Login(model);
             Users user = null;
             if (result != null)
@@ -40,14 +40,15 @@ namespace Application.API.Controllers
                 
             }
 
-            return user;
+            return Ok(user);
         }
 
         [AllowAnonymous]
         [HttpPost, Route("Register")]
-        public async Task<Result> Register([FromBody] Users model)
+        public async Task<IActionResult> Register([FromBody] Users model)
         {
-            return await _userRepository.Register(model);
+            var result = await _userRepository.Register(model);
+            return Ok(result);
         }
     }
 }
